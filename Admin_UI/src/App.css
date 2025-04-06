@@ -1,31 +1,103 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ddd;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
 th {
-  background-color: #f0f0f0;
+  background-color: #f7f7f7;
+  font-weight: bold;
 }
 
-th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
+tr.selected {
+  background-color: #e8e8e8;
 }
 
-button.edit {
-  color: blue;
+.actions .edit,
+.actions .delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-button.delete {
+.actions .edit {
+  color: black;
+  margin-right: 10px;
+}
+
+.actions .delete {
   color: red;
 }
 
-input[type="checkbox"] {
-  transform: scale(1.2);
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
-input {
-  padding: 10px;
-  margin-bottom: 20px;
-  width: 100%;
+.delete-selected {
+  background-color: #ff4d6d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  gap: 6px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.pagination button.active,
+.pagination button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.first-page,
+.previous-page,
+.next-page,
+.last-page {
+  font-weight: bold;
 }

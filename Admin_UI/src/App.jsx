@@ -1,44 +1,65 @@
-import { Pagination } from "./components/Pagination";
-import { SearchBar } from "./components/SearchBar";
-import { UserTable } from "./components/UserTable";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import axios from "axios";
-import { useState, useEffect, use } from "react";
+import SearchBar from "./components/SearchBar";
+import UserTable from "./components/UserTable";
+import Pagination from "./components/Pagination";
 
-export const App = () => {
+const USERS_API =
+  "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json";
+
+function App() {
   const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [displayedUsers, setDisplayedUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
 
-  const usersPerPage = 10;
-
-  //get Data from API
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
-      );
-      console.log(response.data);
-      setUsers(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const USERS_PER_PAGE = 10;
 
   useEffect(() => {
-    fetchData();
+    fetch(USERS_API)
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setDisplayedUsers(data);
+      });
   }, []);
 
+  useEffect(() => {
+    const filtered = users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.role.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setDisplayedUsers(filtered);
+    setCurrentPage(1); // reset page on search
+  }, [searchTerm, users]);
+
+  const startIdx = (currentPage - 1) * USERS_PER_PAGE;
+  const currentUsers = displayedUsers.slice(
+    startIdx,
+    startIdx + USERS_PER_PAGE
+  );
+  const totalPages = Math.ceil(displayedUsers.length / USERS_PER_PAGE);
+
   return (
-    <div>
-      <SearchBar />
-      <UserTable />
-      <Pagination />
+    <div className="app-container">
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <UserTable
+        users={currentUsers}
+        setUsers={setUsers}
+        allUsers={users}
+        setDisplayedUsers={setDisplayedUsers}
+      />
+      <div className="footer">
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </div>
   );
-};
+}
+
+export default App;
