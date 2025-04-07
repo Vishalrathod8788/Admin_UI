@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './UserTable.css';
+import React, { useState } from "react";
+// import './UserTable.css';
 
 function UserTable({ users, setUsers, allUsers, setDisplayedUsers }) {
   const [editId, setEditId] = useState(null);
@@ -57,7 +57,9 @@ function UserTable({ users, setUsers, allUsers, setDisplayedUsers }) {
               <input
                 type="checkbox"
                 onChange={handleSelectAll}
-                checked={selectedIds.length === users.length && users.length > 0}
+                checked={
+                  selectedIds.length === users.length && users.length > 0
+                }
               />
             </th>
             <th>Name</th>
@@ -70,7 +72,7 @@ function UserTable({ users, setUsers, allUsers, setDisplayedUsers }) {
           {users.map((user) => (
             <tr
               key={user.id}
-              className={selectedIds.includes(user.id) ? 'selected' : ''}
+              className={selectedIds.includes(user.id) ? "selected" : ""}
             >
               <td>
                 <input
